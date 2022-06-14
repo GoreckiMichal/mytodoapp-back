@@ -9,6 +9,7 @@ type TaskRecordResult = [TaskRecord[], FieldPacket[]]
 export class TaskRecord implements TodoEntity {
     public id?: string;
     public taskTodo: string;
+    public deadline: string;
 
     constructor(obj: TaskRecord) {
         if (obj.taskTodo.length < 3 || obj.taskTodo.length > 255) {
@@ -16,18 +17,25 @@ export class TaskRecord implements TodoEntity {
         }
         this.id = obj.id
         this.taskTodo = obj.taskTodo
+        this.deadline = obj.deadline
+
     }
 
     async insert():Promise <string>{
         if(!this.id){
             this.id = uuid()
         }
-        await pool.execute("INSERT INTO `tasks` VALUES(:id, :taskTodo)",{
+
+
+        await pool.execute("INSERT INTO `tasks` VALUES(:id, :taskTodo, :deadline)",{
             id: this.id,
             taskTodo: this.taskTodo,
+            deadline: this.deadline
         })
         return this.id
     }
+
+
     static async listAll():Promise<TaskRecord[]>{
         const [results] = (await pool.execute("SELECT * FROM `tasks`")) as TaskRecordResult;
         return results.map(obj=>new TaskRecord(obj))
