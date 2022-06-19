@@ -42,15 +42,16 @@ export class TaskRecord implements TodoEntity {
     }
     static async getOne(id:string):Promise<TaskRecord>{
         const [result] = await pool.execute("SELECT * FROM `tasks` WHERE `id`=:id",{
-            id
+            id,
         }) as TaskRecordResult
         return new TaskRecord(result[0])
     }
 
     async update(): Promise<void>{
-        await pool.execute("UPDATE `tasks` SET `taskTodo` = :taskTodo WHERE `id` = :id",{
+        await pool.execute("UPDATE `tasks` SET `deadline` = :deadline, `taskTodo` = :taskTodo WHERE `id` = :id",{
             taskTodo: this.taskTodo,
             id: this.id,
+            deadline: this.deadline,
         })
     }
     static async delete(id:string):Promise<void>{
