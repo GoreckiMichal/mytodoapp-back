@@ -59,4 +59,8 @@ export class TaskRecord implements TodoEntity {
             id,
         })
     }
+    static async nextYear():Promise<TaskRecord[]>{
+        const [results] = (await pool.execute("SELECT * FROM `tasks` WHERE `deadline` > '2023-01-01' AND `deadline` < '2023-12-31'")) as TaskRecordResult;
+        return results.map(obj=>new TaskRecord(obj))
+    }
 }
