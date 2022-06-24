@@ -21,8 +21,11 @@ app.use(rateLimit({
     max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
 }))
 
+const router = Router()
 
-app.use(taskRouter)
+router.use(taskRouter)
+
+app.use('/api', router)
 
 app.listen(3001, '0.0.0.0', () => {
     console.log('Listening on port http://localhost:3001')
