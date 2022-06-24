@@ -6,7 +6,7 @@ export const taskRouter = Router()
         const tasks = await TaskRecord.listAll()
         res.json(tasks)
     })
-    .get('/next-year', async(req,res)=>{
+    .get('/next-year/', async(req,res)=>{
         const nextYearTasks = await TaskRecord.nextYear()
         res.json(nextYearTasks)
     })
