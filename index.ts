@@ -2,16 +2,16 @@ import express, {json, Router} from "express";
 import cors from 'cors';
 import 'express-async-errors';
 import rateLimit from 'express-rate-limit';
-
 import {handleError} from "./utils/handleError";
 import {taskRouter} from "./router/task.router";
+import {config} from "./config/config";
 
 
 const app = express();
 
 
 app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: config.corsOrigin
 }))
 
 app.use(json());
